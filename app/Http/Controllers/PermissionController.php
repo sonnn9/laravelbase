@@ -16,7 +16,7 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         $permissions = Permission::orderBy('id', 'DESC')->paginate(5);
-        return view('permissions.index', compact('permissions'))
+        return view('admin.permissions.index', compact('permissions'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -28,7 +28,7 @@ class PermissionController extends Controller
     public function create()
     {
         $permissions = Permission::pluck('display_name', 'id');
-        return view('permissions.create', compact('permissions')); //return the view with the list of permissions passed as an array
+        return view('admin.permissions.create', compact('permissions')); //return the view with the list of permissions passed as an array
     }
 
     /**
@@ -51,7 +51,7 @@ class PermissionController extends Controller
         $permission->description = $request->input('description');
         $permission->save();
 
-        return redirect()->route('permissions.index')
+        return redirect()->route('admin.permissions.index')
             ->with('success', 'Permission created successfully');
     }
 
@@ -71,7 +71,7 @@ class PermissionController extends Controller
                 ->get();
 
         //return the view with the role info and its permissions
-        return view('permissions.show', compact('role', 'permissions'));
+        return view('admin.permissions.show', compact('role', 'permissions'));
     }
 
     /**
@@ -85,7 +85,7 @@ class PermissionController extends Controller
         $permission = Permission::find($id);//Find the requested role
 
 
-        return view('permissions.edit', compact('permission'));
+        return view('admin.permissions.edit', compact('permission'));
     }
 
     /**
@@ -106,7 +106,7 @@ class PermissionController extends Controller
         $permission->description = $request->input('description');
         $permission->save();
 
-        return redirect()->route('permissions.index')
+        return redirect()->route('admin.permissions.index')
             ->with('success', 'Permission updated successfully');
     }
 
@@ -120,7 +120,7 @@ class PermissionController extends Controller
     {
         DB::table("permissions")->where('id', $id)->delete();
 
-        return redirect()->route('permissions.index')
+        return redirect()->route('admin.permissions.index')
             ->with('success', 'Permission deleted successfully');
     }
 }

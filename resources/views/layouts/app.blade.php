@@ -45,9 +45,9 @@
                             @else
                                     <!-- ADD ROLES AND USERS LINKS -->
                             @role('admin')
-                            <li><a href="{{ route('roles.index') }}">Roles</a></li>
-                            <li><a href="{{ route('permissions.index') }}">Permissions</a></li>
-                            <li><a href="{{ route('users.index') }}">Users</a></li>
+                            <li><a href="{{ route('admin.roles.index') }}">Roles</a></li>
+                            <li><a href="{{ route('admin.permissions.index') }}">Permissions</a></li>
+                            <li><a href="{{ route('admin.users.index') }}">Users</a></li>
                             @endrole
 
                             <li class="dropdown">
