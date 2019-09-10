@@ -16,7 +16,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $roles = Role::orderBy('id', 'DESC')->paginate(5);
-        return view('roles.index', compact('roles'))
+        return view('admin.roles.index', compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -28,7 +28,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::pluck('display_name', 'id');
-        return view('roles.create', compact('permissions')); //return the view with the list of permissions passed as an array
+        return view('admin.roles.create', compact('permissions')); //return the view with the list of permissions passed as an array
     }
 
     /**
@@ -57,7 +57,7 @@ class RoleController extends Controller
             $role->attachPermission($value);
         }
 
-        return redirect()->route('roles.index')
+        return redirect()->route('admin.roles.index')
             ->with('success', 'Role created successfully');
     }
 
@@ -77,7 +77,7 @@ class RoleController extends Controller
                 ->get();
 
         //return the view with the role info and its permissions
-        return view('roles.show', compact('role', 'permissions'));
+        return view('admin.roles.show', compact('role', 'permissions'));
     }
 
     /**
@@ -97,7 +97,7 @@ class RoleController extends Controller
             ->pluck('permission_id')
             ->toArray();
 
-        return view('roles.edit', compact('role', 'permissions', 'rolePermissions'));
+        return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
     /**
@@ -126,7 +126,7 @@ class RoleController extends Controller
             $role->attachPermission($value);
         }
 
-        return redirect()->route('roles.index')
+        return redirect()->route('admin.roles.index')
             ->with('success', 'Role updated successfully');
     }
 
@@ -140,7 +140,7 @@ class RoleController extends Controller
     {
         DB::table("roles")->where('id', $id)->delete();
 
-        return redirect()->route('roles.index')
+        return redirect()->route('admin.roles.index')
             ->with('success', 'Role deleted successfully');
     }
 }

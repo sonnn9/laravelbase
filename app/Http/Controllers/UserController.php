@@ -16,8 +16,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+
         $users = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('users'))
+        return view('admin.users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -29,7 +30,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('display_name', 'id');
-        return view('users.create', compact('roles')); //return the view with the list of roles passed as an array
+        return view('admin.users.create', compact('roles')); //return the view with the list of roles passed as an array
     }
 
     /**
@@ -52,7 +53,7 @@ class UserController extends Controller
         foreach ($request->input('roles') as $key => $value) {
             $user->attachRole($value);
         }
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', 'User created successfully');
     }
 
@@ -65,7 +66,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -79,7 +80,7 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::get(); //get all roles
         $userRoles = $user->roles->pluck('id')->toArray();
-        return view('users.edit', compact('user', 'roles', 'userRoles'));
+        return view('admin.users.edit', compact('user', 'roles', 'userRoles'));
     }
 
     /**
@@ -110,7 +111,7 @@ class UserController extends Controller
         foreach ($request->input('roles') as $key => $value) {
             $user->attachRole($value);
         }
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', 'User updated successfully');
     }
 
@@ -123,7 +124,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', 'User deleted successfully');
     }
 }
